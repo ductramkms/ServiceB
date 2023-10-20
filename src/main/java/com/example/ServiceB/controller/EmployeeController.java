@@ -24,16 +24,13 @@ public class EmployeeController {
 
     @GetMapping
     public List<EmployeeBody> all() {
+        System.out.println("@D_LOG: GET ALL");
         return employeeService.getAll();
     }
 
-    // @GetMapping
-    // public String all() {
-    //     return employeeService.getAll().get(0).getName();
-    // }
-
     @GetMapping(value = "/{id}")
     public EmployeeBody getById(@PathVariable Integer id) throws ItemNotFoundException {
+        System.out.println("@D_LOG: GET BY ID");
         EmployeeBody resBody = employeeService.getById(id);
         return resBody;
     }
@@ -41,6 +38,8 @@ public class EmployeeController {
     @PostMapping
     public boolean create(
             @RequestBody EmployeeBody employeeBody) throws ItemAlreadyExistsException {
+        System.out.println("@D_LOG: POST");
+
         boolean resBody = employeeService.create(employeeBody);
         return resBody;
     }
