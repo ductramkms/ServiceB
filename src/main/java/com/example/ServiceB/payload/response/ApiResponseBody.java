@@ -1,5 +1,7 @@
 package com.example.ServiceB.payload.response;
 
+import org.springframework.http.HttpStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,8 +9,9 @@ import lombok.Data;
 @Builder
 @Data
 @AllArgsConstructor
-public class ErrorResponseBody {
+public class ApiResponseBody {
 
-    private String messgage;
-    private int code;
+    HttpStatus status;
+    String message;
+    Object data;
 }

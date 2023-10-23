@@ -1,14 +1,13 @@
 package com.example.ServiceB.service;
 
-import java.util.List;
-
 import com.example.ServiceB.exception.custom.ItemAlreadyExistsException;
 import com.example.ServiceB.exception.custom.ItemNotFoundException;
 import com.example.ServiceB.payload.common.EmployeeBody;
+import com.example.ServiceB.payload.response.ListEmployeeBody;
 
 public interface EmployeeService {
 
-    List<EmployeeBody> getAll();
+    ListEmployeeBody getAll();
 
     EmployeeBody getById(Integer id) throws ItemNotFoundException;
 

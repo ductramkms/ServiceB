@@ -1,8 +1,7 @@
 package com.example.ServiceB.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.ServiceB.exception.custom.ItemAlreadyExistsException;
 import com.example.ServiceB.exception.custom.ItemNotFoundException;
 import com.example.ServiceB.payload.common.EmployeeBody;
+import com.example.ServiceB.payload.response.ApiResponseBody;
 import com.example.ServiceB.service.EmployeeService;
 
 @RestController
@@ -23,24 +23,35 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping
-    public List<EmployeeBody> all() {
+    public ApiResponseBody all() {
         System.out.println("@D_LOG: GET ALL");
-        return employeeService.getAll();
+        return ApiResponseBody.builder()
+                .status(HttpStatus.OK)
+                .message("Get list employees success!")
+                .data(employeeService.getAll())
+                .build();
     }
 
     @GetMapping(value = "/{id}")
-    public EmployeeBody getById(@PathVariable Integer id) throws ItemNotFoundException {
+    public ApiResponseBody getById(@PathVariable Integer id) throws ItemNotFoundException {
         System.out.println("@D_LOG: GET BY ID");
         EmployeeBody resBody = employeeService.getById(id);
-        return resBody;
+        return ApiResponseBody.builder()
+                .status(HttpStatus.OK)
+                .message("Get employee " + id + " success!")
+                .data(resBody)
+                .build();
     }
 
     @PostMapping
-    public boolean create(
+    public ApiResponseBody create(
             @RequestBody EmployeeBody employeeBody) throws ItemAlreadyExistsException {
-        System.out.println("@D_LOG: POST");
+        employeeService.create(employeeBody);
 
-        boolean resBody = employeeService.create(employeeBody);
-        return resBody;
+        return ApiResponseBody.builder()
+                .status(HttpStatus.OK)
+                .message("Create employee success!")
+                .data(employeeBody)
+                .build();
     }
 }

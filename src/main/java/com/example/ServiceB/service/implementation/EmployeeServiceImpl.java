@@ -11,6 +11,7 @@ import com.example.ServiceB.exception.custom.ItemAlreadyExistsException;
 import com.example.ServiceB.exception.custom.ItemNotFoundException;
 import com.example.ServiceB.model.Employee;
 import com.example.ServiceB.payload.common.EmployeeBody;
+import com.example.ServiceB.payload.response.ListEmployeeBody;
 import com.example.ServiceB.repository.EmployeeRepository;
 import com.example.ServiceB.service.EmployeeService;
 
@@ -21,9 +22,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository employeeRepository;
 
     @Override
-    public List<EmployeeBody> getAll() {
+    public ListEmployeeBody getAll() {
         List<Employee> employees = employeeRepository.findAll();
-        return employees.stream().map(EmployeeBody::fromEntity).collect(Collectors.toList());
+        List<EmployeeBody> list = employees.stream().map(EmployeeBody::fromEntity).collect(
+                Collectors.toList());
+
+        return ListEmployeeBody.builder()
+                .total(list.size())
+                .employees(list)
+                .build();
     }
 
     @Override
@@ -38,7 +45,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public boolean create(EmployeeBody body) throws ItemAlreadyExistsException {
         if (employeeRepository.existsById(body.getEmpId())) {
-            throw new ItemAlreadyExistsException("The employ with id = " + body.getEmpId() + " has already exited");
+            throw new ItemAlreadyExistsException("The employ with id = " + body.getEmpId()
+                    + " has already exited");
         }
         return employeeRepository.save(EmployeeBody.toEntity(body)) != null;
     }
