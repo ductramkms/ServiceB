@@ -1,30 +1,30 @@
 version: "3"
 services:
+  service_a_container:
+    container_name: service_a_container
+    image: service_a
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - service_b_container
+
   service_b_container:
     container_name: service_b_container
-    image: service_b:1.0
+    hostname: service_b
+    image: service_b
     restart: always
     ports:
       - "8081:8081"
     environment:
       - spring.data.mongodb.host=mongodb_service
-    networks:
-      service_ab_network:
-        aliases:
-          - service_b_host
     depends_on:
       - mongodb_service
 
   mongodb_service:
+    container_name: mongodb_service
+    hostname: mongodb_service
     image: mongo
     restart: always
     ports:
       - "27017:27017"
-    networks:
-      service_ab_network:
-        aliases:
-          - mongodb_service
-
-networks:
-  service_ab_network:
-    driver: bridge
