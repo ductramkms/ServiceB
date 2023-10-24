@@ -62,24 +62,40 @@ class EmployeeControllerTest {
     Mockito.when(employeeService.getById(1)).thenReturn(EmployeeBody.builder().empId(1).build());
 
     mockMvc.perform(
-            MockMvcRequestBuilders.get("/employee/1").contentType(MediaType.APPLICATION_JSON))
+        MockMvcRequestBuilders.get("/employee/1").contentType(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(
             MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
   }
 
   @Test
-  void create_CREATED_IfSuccess() throws Exception {
+  void create_ValidData_Created() throws Exception {
     EmployeeBody body = EmployeeBody.builder().empId(1).name("Huu Duc").salary(1.0)
         .department("Software").build();
 
     Mockito.when(employeeService.getById(1)).thenReturn(body);
     ObjectMapper objectMapper = new ObjectMapper();
     mockMvc.perform(MockMvcRequestBuilders.post("/employee")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsBytes(body))
-        )
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsBytes(body))
+    )
         .andExpect(MockMvcResultMatchers.status().isCreated())
+        .andExpect(
+            MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+  }
+
+  @Test
+  void create_InvalidData_BadRequest() throws Exception {
+    EmployeeBody body = EmployeeBody.builder().empId(-1).name("Huu Duc").salary(1.0)
+        .department("Software").build();
+
+    Mockito.when(employeeService.getById(1)).thenReturn(body);
+    ObjectMapper objectMapper = new ObjectMapper();
+    mockMvc.perform(MockMvcRequestBuilders.post("/employee")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsBytes(body))
+    )
+        .andExpect(MockMvcResultMatchers.status().isBadRequest())
         .andExpect(
             MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
   }
