@@ -1,0 +1,1 @@
+mvn dependency:tree | awk '/:tree/,/BUILD SUCCESS/' | awk 'NR > 2 { print }' | head -n -2 | grep -o -P '.*(?<=:).*(?=:jar)' | sed -e 's/\(- \).*\(:\)/\1\2/'
