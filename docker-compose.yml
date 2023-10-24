@@ -1,25 +1,33 @@
-version: "3"
+version: "3.5"
 services:
   service_a_container:
     container_name: service_a_container
     image: service_a
-    restart: always
+#    restart: always
+    environment:
+      - SERVICE_B_HOST=172.22.1.3
+      - SERVICE_B_PORT=8081
     ports:
       - "8080:8080"
     depends_on:
       - service_b_container
+    networks:
+      service_app_network:
+        ipv4_address: 172.22.1.2
 
   service_b_container:
     container_name: service_b_container
-    hostname: service_b
     image: service_b
-    restart: always
+#    restart: always
     ports:
       - "8081:8081"
     environment:
       - spring.data.mongodb.host=mongodb_service
     depends_on:
       - mongodb_service
+    networks:
+      service_app_network:
+        ipv4_address: 172.22.1.3
 
   mongodb_service:
     container_name: mongodb_service
@@ -28,3 +36,14 @@ services:
     restart: always
     ports:
       - "27017:27017"
+    networks:
+      service_app_network:
+        ipv4_address: 172.22.1.4
+
+networks:
+  service_app_network:
+    name: service_app_network
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.22.0.0/16
