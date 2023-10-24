@@ -1,5 +1,6 @@
 package com.example.ServiceB.exception;
 
+import com.example.ServiceB.exception.custom.InvalidDataException;
 import com.example.ServiceB.exception.custom.ItemAlreadyExistsException;
 import com.example.ServiceB.exception.custom.ItemNotFoundException;
 import com.example.ServiceB.payload.response.ApiResponseBody;
@@ -31,9 +32,9 @@ public class RestResponseEntityExceptionHandler {
 
   /**
    * Because any function handle for all exception relate to 4xx, 5xx error are use an common logic,
-   * this function help return an common error body.
+   * this function help return a common error body.
    *
-   * @param exception
+   * @param exception common exception
    * @param code      HTTP STATUS CODE
    * @return ApiResponseBody
    */
@@ -50,11 +51,11 @@ public class RestResponseEntityExceptionHandler {
   /**
    * Handle the others exception, that usually occurs in the internal system.
    *
-   * @param exception
+   * @param exception common exception
    * @return 500 status
    */
   @ExceptionHandler(Exception.class)
-  protected ResponseEntity<ApiResponseBody> handleAllException(Exception exception) {
+  public ResponseEntity<ApiResponseBody> handleAllException(Exception exception) {
     return response(exception, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
@@ -62,11 +63,11 @@ public class RestResponseEntityExceptionHandler {
    * Handle all errors relative to 404 (example: not found item, item doesn't exits, or item was
    * deleted)
    *
-   * @param exception
+   * @param exception ItemNotFoundException
    * @return 404 status
    */
   @ExceptionHandler(ItemNotFoundException.class)
-  protected ResponseEntity<ApiResponseBody> handleNotFoundResourceException(
+  public ResponseEntity<ApiResponseBody> handleNotFoundResourceException(
       Exception exception) {
     return response(exception, HttpStatus.NOT_FOUND);
   }
@@ -74,23 +75,34 @@ public class RestResponseEntityExceptionHandler {
   /**
    * Handle all error
    *
-   * @param exception
-   * @return
+   * @param exception ItemAlreadyExistsException
+   * @return response body with error and status code message
    */
   @ExceptionHandler(ItemAlreadyExistsException.class)
   @ResponseStatus(code = HttpStatus.CONFLICT)
-  protected ResponseEntity<ApiResponseBody> handleItemAlreadyExistsException(
+  public ResponseEntity<ApiResponseBody> handleItemAlreadyExistsException(
       Exception exception) {
     return response(exception, HttpStatus.CONFLICT);
   }
 
   /**
+   * All invalid data error with be response with bad request message.
+   * @param exception Invalid Data Exception
+   * @return bad request message
+   */
+  @ExceptionHandler(InvalidDataException.class)
+  @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+  public ResponseEntity<ApiResponseBody> handleInvalidDataException(Exception exception) {
+    return response(exception, HttpStatus.BAD_REQUEST);
+  }
+
+  /**
    * Handle common exception instead of extends ResponseEntityExceptionHandler
    *
-   * @param ex
-   * @param request
-   * @return
-   * @throws Exception
+   * @param ex      exception
+   * @param request request
+   * @return response body with error
+   * @throws Exception exception
    */
   @ExceptionHandler({HttpRequestMethodNotSupportedException.class,
       HttpMediaTypeNotSupportedException.class, HttpMediaTypeNotAcceptableException.class,

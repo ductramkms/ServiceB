@@ -1,5 +1,6 @@
 package com.example.ServiceB.service;
 
+import com.example.ServiceB.exception.custom.InvalidDataException;
 import com.example.ServiceB.exception.custom.ItemAlreadyExistsException;
 import com.example.ServiceB.exception.custom.ItemNotFoundException;
 import com.example.ServiceB.payload.common.EmployeeBody;
@@ -9,7 +10,7 @@ public interface EmployeeService {
 
   ListEmployeeBody getAll();
 
-  EmployeeBody getById(Integer id) throws ItemNotFoundException;
+  EmployeeBody getById(Integer id) throws ItemNotFoundException, InvalidDataException;
 
-  void create(EmployeeBody body) throws ItemAlreadyExistsException;
+  void create(EmployeeBody body) throws ItemAlreadyExistsException, InvalidDataException;
 }

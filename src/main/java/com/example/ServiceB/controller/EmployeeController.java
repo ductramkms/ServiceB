@@ -1,5 +1,6 @@
 package com.example.ServiceB.controller;
 
+import com.example.ServiceB.exception.custom.InvalidDataException;
 import com.example.ServiceB.exception.custom.ItemAlreadyExistsException;
 import com.example.ServiceB.exception.custom.ItemNotFoundException;
 import com.example.ServiceB.payload.common.EmployeeBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -37,7 +39,8 @@ public class EmployeeController {
   }
 
   @GetMapping(value = "/{id}")
-  public ApiResponseBody getById(@PathVariable Integer id) throws ItemNotFoundException {
+  public ApiResponseBody getById(
+      @PathVariable Integer id) throws ItemNotFoundException, InvalidDataException {
     System.out.println("@D_LOG: GET BY ID");
 
     EmployeeBody resBody = employeeService.getById(id);
@@ -49,13 +52,14 @@ public class EmployeeController {
   }
 
   @PostMapping
+  @ResponseStatus(code = HttpStatus.CREATED)
   public ApiResponseBody create(
-      @RequestBody EmployeeBody employeeBody) throws ItemAlreadyExistsException {
+      @RequestBody EmployeeBody employeeBody) throws ItemAlreadyExistsException, InvalidDataException {
 
     System.out.println("@D_LOG: CREATE");
     employeeService.create(employeeBody);
     return ApiResponseBody.builder()
-        .status(HttpStatus.OK)
+        .status(HttpStatus.CREATED)
         .message("Create employee success!")
         .data(employeeBody)
         .build();

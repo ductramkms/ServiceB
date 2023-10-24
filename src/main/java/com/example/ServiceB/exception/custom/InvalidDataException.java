@@ -3,9 +3,8 @@ package com.example.ServiceB.exception.custom;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class ItemAlreadyExistsException extends RuntimeException {
-
-  public ItemAlreadyExistsException(String message) {
+public class InvalidDataException extends Exception{
+  public  InvalidDataException(String message) {
     super(message);
   }
 }
