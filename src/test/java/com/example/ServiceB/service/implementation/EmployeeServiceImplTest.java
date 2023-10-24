@@ -4,18 +4,18 @@ import org.junit.jupiter.api.Test;
 
 public class EmployeeServiceImplTest {
 
-    @Test
-    void testCreate() {
+  @Test
+  void testCreate() {
 
-    }
+  }
 
-    @Test
-    void testGetAll() {
+  @Test
+  void testGetAll() {
 
-    }
+  }
 
-    @Test
-    void testGetById() {
+  @Test
+  void testGetById() {
 
-    }
+  }
 }

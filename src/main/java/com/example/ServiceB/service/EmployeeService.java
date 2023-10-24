@@ -7,9 +7,9 @@ import com.example.ServiceB.payload.response.ListEmployeeBody;
 
 public interface EmployeeService {
 
-    ListEmployeeBody getAll();
+  ListEmployeeBody getAll();
 
-    EmployeeBody getById(Integer id) throws ItemNotFoundException;
+  EmployeeBody getById(Integer id) throws ItemNotFoundException;
 
-    boolean create(EmployeeBody body) throws ItemAlreadyExistsException;
+  void create(EmployeeBody body) throws ItemAlreadyExistsException;
 }
