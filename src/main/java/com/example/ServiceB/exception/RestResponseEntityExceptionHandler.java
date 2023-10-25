@@ -40,6 +40,8 @@ public class RestResponseEntityExceptionHandler {
    */
   private ResponseEntity<ApiResponseBody> response(Exception exception,
       HttpStatus code) {
+
+    exception.printStackTrace();
     ApiResponseBody body = ApiResponseBody.builder()
         .status(code)
         .message(exception.getMessage())
@@ -87,6 +89,7 @@ public class RestResponseEntityExceptionHandler {
 
   /**
    * All invalid data error with be response with bad request message.
+   * 
    * @param exception Invalid Data Exception
    * @return bad request message
    */
@@ -115,7 +118,7 @@ public class RestResponseEntityExceptionHandler {
   @Nullable
   public final ResponseEntity<ApiResponseBody> handleMyException(Exception ex,
       WebRequest request) throws Exception {
-    System.out.println("@D_LOG: PRINT_EXCEPTION");
+
     ex.printStackTrace();
 
     ApiResponseBody body = ApiResponseBody.builder()

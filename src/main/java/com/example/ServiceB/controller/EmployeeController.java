@@ -29,8 +29,7 @@ public class EmployeeController {
 
   @GetMapping
   public ApiResponseBody all() {
-    System.out.println("@D_LOG: GET ALL");
-    logger.info("@D_LOG: START START DUKE");
+    logger.info("GET: employee/");
     return ApiResponseBody.builder()
         .status(HttpStatus.OK)
         .message("Get list employees success!")
@@ -41,7 +40,7 @@ public class EmployeeController {
   @GetMapping(value = "/{id}")
   public ApiResponseBody getById(
       @PathVariable Integer id) throws ItemNotFoundException, InvalidDataException {
-    System.out.println("@D_LOG: GET BY ID");
+    logger.info("GET: employee/" + id);
 
     EmployeeBody resBody = employeeService.getById(id);
     return ApiResponseBody.builder()
@@ -55,8 +54,7 @@ public class EmployeeController {
   @ResponseStatus(code = HttpStatus.CREATED)
   public ApiResponseBody create(
       @RequestBody EmployeeBody employeeBody) throws ItemAlreadyExistsException, InvalidDataException {
-
-    System.out.println("@D_LOG: CREATE");
+    logger.info("POST: employee/" + "  | RequestBody: " + employeeBody.toString());
     employeeService.create(employeeBody);
     return ApiResponseBody.builder()
         .status(HttpStatus.CREATED)

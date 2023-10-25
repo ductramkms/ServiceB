@@ -12,12 +12,16 @@ import com.example.ServiceB.service.EmployeeService;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
+  private Logger logger = LogManager.getLogger(EmployeeServiceImpl.class);
   @Autowired
   private EmployeeRepository employeeRepository;
 
@@ -36,31 +40,41 @@ public class EmployeeServiceImpl implements EmployeeService {
   @Override
   public EmployeeBody getById(Integer id) throws ItemNotFoundException, InvalidDataException {
     if (id == null || id < 0) {
-      throw new InvalidDataException(String.format(ExceptionMessage.EMPLOYEE_ID_CANT_BE_NEGATIVE,
-          id));
+      String message = String.format(ExceptionMessage.EMPLOYEE_ID_CANT_BE_NEGATIVE, id);
+      logger.error(message);
+      throw new InvalidDataException(message);
     }
 
     Optional<Employee> emOptional = employeeRepository.findById(id);
+
     if (!emOptional.isPresent()) {
-      throw new ItemNotFoundException(String.format(ExceptionMessage.CANT_FIND_EMPLOYEE, id));
+      String message = String.format(ExceptionMessage.CANT_FIND_EMPLOYEE, id);
+      logger.error(message);
+      throw new ItemNotFoundException(message);
     }
     return EmployeeBody.fromEntity(emOptional.get());
   }
 
   private void validateEmployee(EmployeeBody body) throws InvalidDataException {
+    String message = "";
     if (body.getEmpId() < 0) {
-      throw new InvalidDataException(String.format(ExceptionMessage.EMPLOYEE_ID_CANT_BE_NEGATIVE,
-          body.getEmpId()));
+      message = String.format(ExceptionMessage.EMPLOYEE_ID_CANT_BE_NEGATIVE,
+          body.getEmpId());
     }
     if (body.getSalary() < 0) {
-      throw new InvalidDataException(String.format(
-          ExceptionMessage.EMPLOYEE_SALARY_CANT_BE_NEGATIVE, body.getSalary()));
+      message = String.format(
+          ExceptionMessage.EMPLOYEE_SALARY_CANT_BE_NEGATIVE, body.getSalary());
     }
     if (body.getName().length() > 150) {
-      throw new InvalidDataException(ExceptionMessage.EMPLOYEE_NAME_TOO_LONG);
+      message = ExceptionMessage.EMPLOYEE_NAME_TOO_LONG;
     }
     if (body.getDepartment().length() > 150) {
-      throw new InvalidDataException(ExceptionMessage.EMPLOYEE_DEPARTMENT_TOO_LONG);
+      message = ExceptionMessage.EMPLOYEE_DEPARTMENT_TOO_LONG;
+    }
+
+    if (!message.isBlank()) {
+      logger.error(message);
+      throw new InvalidDataException(message);
     }
   }
 
@@ -69,9 +83,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     validateEmployee(body);
 
     if (employeeRepository.existsById(body.getEmpId())) {
-      throw new ItemAlreadyExistsException(String.format(ExceptionMessage.EMPLOYEE_EXISTED, body
-          .getEmpId()));
+      String message = String.format(ExceptionMessage.EMPLOYEE_EXISTED, body
+          .getEmpId());
+      logger.error(message);
+      throw new ItemAlreadyExistsException(message);
     }
+
     employeeRepository.save(EmployeeBody.toEntity(body));
   }
 
