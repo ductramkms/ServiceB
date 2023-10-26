@@ -6,4 +6,4 @@ RUN --mount=type=cache,target=/root/.m2 mvn -f /app/pom.xml clean package -Dskip
 FROM openjdk:11
 COPY --from=builder  /app/target/service_b.jar service_b.jar
 EXPOSE 8081
-ENTRYPOINT ["java", "-jar", "ServiceB.jar"]
+ENTRYPOINT ["java", "-jar", "service_b.jar"]
