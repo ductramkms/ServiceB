@@ -39,4 +39,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ductram/service_a:test
+          tags: ductram/service_b:test
