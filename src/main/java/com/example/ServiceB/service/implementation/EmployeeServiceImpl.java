@@ -12,16 +12,14 @@ import com.example.ServiceB.service.EmployeeService;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class EmployeeServiceImpl implements EmployeeService {
 
-  private Logger logger = LogManager.getLogger(EmployeeServiceImpl.class);
   @Autowired
   private EmployeeRepository employeeRepository;
 
@@ -41,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
   public EmployeeBody getById(Integer id) throws ItemNotFoundException, InvalidDataException {
     if (id == null || id < 0) {
       String message = String.format(ExceptionMessage.EMPLOYEE_ID_CANT_BE_NEGATIVE, id);
-      logger.error(message);
+      log.error(message);
       throw new InvalidDataException(message);
     }
 
@@ -49,7 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     if (!emOptional.isPresent()) {
       String message = String.format(ExceptionMessage.CANT_FIND_EMPLOYEE, id);
-      logger.error(message);
+      log.error(message);
       throw new ItemNotFoundException(message);
     }
     return EmployeeBody.fromEntity(emOptional.get());
@@ -73,7 +71,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     if (!message.isBlank()) {
-      logger.error(message);
+      log.error(message);
       throw new InvalidDataException(message);
     }
   }
@@ -85,7 +83,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     if (employeeRepository.existsById(body.getEmpId())) {
       String message = String.format(ExceptionMessage.EMPLOYEE_EXISTED, body
           .getEmpId());
-      logger.error(message);
+      log.error(message);
       throw new ItemAlreadyExistsException(message);
     }
 

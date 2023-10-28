@@ -89,7 +89,7 @@ public class RestResponseEntityExceptionHandler {
 
   /**
    * All invalid data error with be response with bad request message.
-   * 
+   *
    * @param exception Invalid Data Exception
    * @return bad request message
    */

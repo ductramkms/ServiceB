@@ -10,7 +10,7 @@
 
   <Appenders>
     <Console name="Console" target="SYSTEM_OUT">
-      <PatternLayout pattern="${LOG_PATTERN}" />
+      <PatternLayout pattern="${LOG_PATTERN}"/>
     </Console>
 
     <RollingFile name="RollingFile"
@@ -22,10 +22,10 @@
       <Policies>
         <!-- rollover on startup, daily and when the file reaches
             10 MegaBytes -->
-        <OnStartupTriggeringPolicy />
+        <OnStartupTriggeringPolicy/>
         <SizeBasedTriggeringPolicy
-          size="10 MB" />
-        <TimeBasedTriggeringPolicy />
+          size="10 MB"/>
+        <TimeBasedTriggeringPolicy/>
       </Policies>
     </RollingFile>
   </Appenders>
@@ -33,8 +33,8 @@
   <Loggers>
     <!-- LOG everything at INFO level -->
     <Root level="info">
-      <AppenderRef ref="Console" />
-      <AppenderRef ref="RollingFile" />
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="RollingFile"/>
     </Root>
 
     <!-- LOG "com.example*" at TRACE level -->
