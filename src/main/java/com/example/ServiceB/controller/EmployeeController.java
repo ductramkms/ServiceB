@@ -7,6 +7,9 @@ import com.example.ServiceB.payload.common.EmployeeBody;
 import com.example.ServiceB.payload.response.ApiResponseBody;
 import com.example.ServiceB.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,8 +54,7 @@ public class EmployeeController {
   @PostMapping
   @ResponseStatus(code = HttpStatus.CREATED)
   public ApiResponseBody create(
-      @RequestBody EmployeeBody employeeBody)
-      throws ItemAlreadyExistsException, InvalidDataException {
+      @Valid @RequestBody EmployeeBody employeeBody) throws ItemAlreadyExistsException, InvalidDataException {
     log.info("POST: employee/" + "  | RequestBody: " + employeeBody.toString());
     employeeService.create(employeeBody);
     return ApiResponseBody.builder()

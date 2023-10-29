@@ -38,7 +38,7 @@ public class EmployeeServiceImpl implements EmployeeService {
   @Override
   public EmployeeBody getById(Integer id) throws ItemNotFoundException, InvalidDataException {
     if (id == null || id < 0) {
-      String message = String.format(ExceptionMessage.EMPLOYEE_ID_CANT_BE_NEGATIVE, id);
+      String message = ExceptionMessage.EMPLOYEE_ID_CANT_BE_NEGATIVE;
       log.error(message);
       throw new InvalidDataException(message);
     }
@@ -60,8 +60,7 @@ public class EmployeeServiceImpl implements EmployeeService {
           body.getEmpId());
     }
     if (body.getSalary() < 0) {
-      message = String.format(
-          ExceptionMessage.EMPLOYEE_SALARY_CANT_BE_NEGATIVE, body.getSalary());
+      message = ExceptionMessage.EMPLOYEE_SALARY_CANT_BE_NEGATIVE;
     }
     if (body.getName().length() > 150) {
       message = ExceptionMessage.EMPLOYEE_NAME_TOO_LONG;
@@ -78,7 +77,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
   @Override
   public void create(EmployeeBody body) throws ItemAlreadyExistsException, InvalidDataException {
-    validateEmployee(body);
+    // validateEmployee(body);
 
     if (employeeRepository.existsById(body.getEmpId())) {
       String message = String.format(ExceptionMessage.EMPLOYEE_EXISTED, body

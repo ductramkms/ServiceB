@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @ExtendWith(SpringExtension.class)
 public class EmployeeServiceImplTest {
@@ -60,19 +61,6 @@ public class EmployeeServiceImplTest {
     Assertions.assertDoesNotThrow(() -> {
       employeeService.create(req);
     });
-  }
-
-  @Test
-  void create_InvalidData_ThrowException() {
-    EmployeeBody req = EmployeeBody.builder().empId(-1).salary(1.0).name("Huu Duc")
-        .department("Software").build();
-
-    Exception exception = Assertions.assertThrows(InvalidDataException.class, () -> {
-      employeeService.create(req);
-    });
-
-    Assertions.assertEquals(exception.getMessage(),
-        String.format(ExceptionMessage.EMPLOYEE_ID_CANT_BE_NEGATIVE, -1));
   }
 
   @Test

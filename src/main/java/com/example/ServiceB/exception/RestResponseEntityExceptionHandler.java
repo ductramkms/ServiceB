@@ -4,6 +4,10 @@ import com.example.ServiceB.exception.custom.InvalidDataException;
 import com.example.ServiceB.exception.custom.ItemAlreadyExistsException;
 import com.example.ServiceB.exception.custom.ItemNotFoundException;
 import com.example.ServiceB.payload.response.ApiResponseBody;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
@@ -12,6 +16,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.lang.Nullable;
 import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -21,6 +26,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
@@ -99,6 +105,26 @@ public class RestResponseEntityExceptionHandler {
     return response(exception, HttpStatus.BAD_REQUEST);
   }
 
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ApiResponseBody handleValidationExceptions(
+      MethodArgumentNotValidException ex) {
+
+    Map<String, String> errors = new HashMap<>();
+    ex.getBindingResult().getAllErrors().forEach((error) -> {
+      String fieldName = ((FieldError) error).getField();
+      String errorMessage = error.getDefaultMessage();
+      errors.put(fieldName, errorMessage);
+    });
+
+    return ApiResponseBody.builder()
+        .status(HttpStatus.BAD_REQUEST)
+        .message("BAD_REQUEST")
+        .data(errors)
+        .build();
+  }
+
   /**
    * Handle common exception instead of extends ResponseEntityExceptionHandler
    *
@@ -112,7 +138,7 @@ public class RestResponseEntityExceptionHandler {
       MissingPathVariableException.class, MissingServletRequestParameterException.class,
       ServletRequestBindingException.class, ConversionNotSupportedException.class,
       TypeMismatchException.class, HttpMessageNotReadableException.class,
-      HttpMessageNotWritableException.class, MethodArgumentNotValidException.class,
+      HttpMessageNotWritableException.class,
       MissingServletRequestPartException.class, BindException.class,
       NoHandlerFoundException.class, AsyncRequestTimeoutException.class})
   @Nullable
@@ -128,4 +154,5 @@ public class RestResponseEntityExceptionHandler {
 
     return ResponseEntity.badRequest().body(body);
   }
+
 }
