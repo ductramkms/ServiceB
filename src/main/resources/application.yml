@@ -1,0 +1,35 @@
+server:
+  port: 8081
+
+logging:
+  level:
+    org.springframework.security: trace
+
+spring:
+  data:
+    mongodb:
+      database: service_b
+      host: ${SPRING_DATA_MONGODB_HOST:localhost}
+      port: 27017
+
+  security:
+    oauth2:
+      authorizationserver:
+      client:
+        oidc-client:
+        registration:
+          client-id: "service-a-client"
+          client-secret: "{noop}secret"
+          client-authentication-methods:
+            - "client_secret_basic"
+          authorization-grant-types:
+            - "authorization_code"
+            - "refresh_token"
+          redirect-uris:
+            - "http://127.0.0.1:8081/login/oauth2/code/service-a-client"
+          post-logout-redirect-uris:
+            - "http://127.0.0.1:8081/"
+          scopes:
+            - "openid"
+            - "employee.read"
+        require-authorization-consent: true
