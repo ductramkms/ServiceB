@@ -15,21 +15,25 @@ spring:
   security:
     oauth2:
       authorizationserver:
-      client:
-        oidc-client:
-        registration:
-          client-id: "service-a-client"
-          client-secret: "{noop}secret"
-          client-authentication-methods:
-            - "client_secret_basic"
-          authorization-grant-types:
-            - "authorization_code"
-            - "refresh_token"
-          redirect-uris:
-            - "http://127.0.0.1:8081/login/oauth2/code/service-a-client"
-          post-logout-redirect-uris:
-            - "http://127.0.0.1:8081/"
-          scopes:
-            - "openid"
-            - "employee.read"
-        require-authorization-consent: true
+        client:
+          oidc-client:
+            registration:
+              client-id: "service-a-client"
+              client-secret: "{noop}secret"
+              client-authentication-methods:
+                - "client_secret_basic"
+              authorization-grant-types:
+                - "authorization_code"
+                - "refresh_token"
+              redirect-uris:
+                - "http://127.0.0.1:8080/login/oauth2/code/service-a-client-oidc"
+              post-logout-redirect-uris:
+                - "http://127.0.0.1:8080/"
+              scopes:
+                - "openid"
+                - "employee.read"
+            require-authorization-consent: true
+
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081
