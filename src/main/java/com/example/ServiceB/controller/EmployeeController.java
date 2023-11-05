@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/employee")
+@RequestMapping(value = "/employees")
 @Slf4j
 public class EmployeeController {
 
@@ -52,8 +52,7 @@ public class EmployeeController {
   @PostMapping
   @ResponseStatus(code = HttpStatus.CREATED)
   public ApiResponseBody create(
-      @Valid @RequestBody EmployeeBody employeeBody)
-      throws ItemAlreadyExistsException, InvalidDataException {
+      @Valid @RequestBody EmployeeBody employeeBody) throws ItemAlreadyExistsException, InvalidDataException {
     log.info("POST: employee/" + "  | RequestBody: " + employeeBody.toString());
     employeeService.create(employeeBody);
     return ApiResponseBody.builder()

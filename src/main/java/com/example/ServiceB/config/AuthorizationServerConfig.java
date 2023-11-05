@@ -41,29 +41,31 @@ public class AuthorizationServerConfig {
     @Value("${spring.security.oauth2.authorizationserver.client.oidc-client.registration.redirect-uris[0]}")
     private String redirectUri;
 
-    @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
-        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-        return http.formLogin(Customizer.withDefaults()).build();
-    }
+    // @Bean
+    // @Order(Ordered.HIGHEST_PRECEDENCE)
+    // public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
+    //     // OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+    //     // return http.formLogin(Customizer.withDefaults()).build();
+    //     return http.build();
 
-    @Bean
-    public RegisteredClientRepository registeredClientRepository() {
-        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId(clientId)
-                .clientSecret("{noop}secret")
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri(redirectUri)
-                .redirectUri("http://127.0.0.1:8080/authorized")
-                .scope(OidcScopes.OPENID)
-                .scope(scope)
-                .build();
+    // }
 
-        return new InMemoryRegisteredClientRepository(registeredClient);
-    }
+    // @Bean
+    // public RegisteredClientRepository registeredClientRepository() {
+    //     RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+    //             .clientId(clientId)
+    //             .clientSecret("{noop}secret")
+    //             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+    //             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+    //             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+    //             .redirectUri(redirectUri)
+    //             .redirectUri("http://127.0.0.1:8080/authorized")
+    //             .scope(OidcScopes.OPENID)
+    //             .scope(scope)
+    //             .build();
+
+    //     return new InMemoryRegisteredClientRepository(registeredClient);
+    // }
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
