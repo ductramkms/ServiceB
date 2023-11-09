@@ -6,6 +6,8 @@ logging:
     org.springframework.security: trace
 
 spring:
+  kafka:
+    bootstrap-servers: localhost:29092
   data:
     mongodb:
       database: service_b

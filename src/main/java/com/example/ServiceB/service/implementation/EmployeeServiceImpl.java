@@ -9,6 +9,8 @@ import com.example.ServiceB.payload.common.EmployeeBody;
 import com.example.ServiceB.payload.response.ListEmployeeBody;
 import com.example.ServiceB.repository.EmployeeRepository;
 import com.example.ServiceB.service.EmployeeService;
+import com.example.ServiceB.util.ColorLog;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,7 +41,7 @@ public class EmployeeServiceImpl implements EmployeeService {
   public EmployeeBody getById(Integer id) throws ItemNotFoundException, InvalidDataException {
     if (id == null || id < 0) {
       String message = ExceptionMessage.EMPLOYEE_ID_CANT_BE_NEGATIVE;
-      log.error(message);
+      log.error(ColorLog.getError(message));
       throw new InvalidDataException(message);
     }
 
@@ -47,32 +49,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     if (!emOptional.isPresent()) {
       String message = String.format(ExceptionMessage.CANT_FIND_EMPLOYEE, id);
-      log.error(message);
+      log.error(ColorLog.getError(message));
       throw new ItemNotFoundException(message);
     }
     return EmployeeBody.fromEntity(emOptional.get());
-  }
-
-  private void validateEmployee(EmployeeBody body) throws InvalidDataException {
-    String message = "";
-    if (body.getEmpId() < 0) {
-      message = String.format(ExceptionMessage.EMPLOYEE_ID_CANT_BE_NEGATIVE,
-          body.getEmpId());
-    }
-    if (body.getSalary() < 0) {
-      message = ExceptionMessage.EMPLOYEE_SALARY_CANT_BE_NEGATIVE;
-    }
-    if (body.getName().length() > 150) {
-      message = ExceptionMessage.EMPLOYEE_NAME_TOO_LONG;
-    }
-    if (body.getDepartment().length() > 150) {
-      message = ExceptionMessage.EMPLOYEE_DEPARTMENT_TOO_LONG;
-    }
-
-    if (!message.isBlank()) {
-      log.error(message);
-      throw new InvalidDataException(message);
-    }
   }
 
   @Override
@@ -82,11 +62,35 @@ public class EmployeeServiceImpl implements EmployeeService {
     if (employeeRepository.existsById(body.getEmpId())) {
       String message = String.format(ExceptionMessage.EMPLOYEE_EXISTED, body
           .getEmpId());
-      log.error(message);
+      log.error(ColorLog.getError(message));
       throw new ItemAlreadyExistsException(message);
     }
 
     employeeRepository.save(EmployeeBody.toEntity(body));
   }
 
+  @Override
+  public void update(EmployeeBody body) throws ItemNotFoundException {
+    if (!employeeRepository.existsById(body.getEmpId())) {
+      String message = String.format(ExceptionMessage.CANT_FIND_EMPLOYEE, body
+          .getEmpId());
+      log.error(ColorLog.getError(message));
+      throw new ItemNotFoundException(message);
+    }
+
+    employeeRepository.save(EmployeeBody.toEntity(body));
+  }
+
+  @Override
+  public void delete(Integer id) throws ItemNotFoundException {
+    employeeRepository.deleteById(id);
+  }
+
+  @Override
+  public boolean existed(Integer id) {
+    if (id == null) {
+      return false;
+    }
+    return employeeRepository.existsById(id);
+  }
 }

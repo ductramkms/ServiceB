@@ -6,6 +6,8 @@ import com.example.ServiceB.exception.custom.ItemNotFoundException;
 import com.example.ServiceB.payload.common.EmployeeBody;
 import com.example.ServiceB.payload.response.ApiResponseBody;
 import com.example.ServiceB.service.EmployeeService;
+import com.example.ServiceB.util.ColorLog;
+
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -28,7 +31,7 @@ public class EmployeeController {
 
   @GetMapping
   public ApiResponseBody all() {
-    log.info("GET: employee/");
+    log.info(ColorLog.getLog("GET: employee/"));
     return ApiResponseBody.builder()
         .status(HttpStatus.OK)
         .message("Get list employees success!")
@@ -39,7 +42,7 @@ public class EmployeeController {
   @GetMapping(value = "/{id}")
   public ApiResponseBody getById(
       @PathVariable Integer id) throws ItemNotFoundException, InvalidDataException {
-    log.info("GET: employee/" + id);
+    log.info(ColorLog.getLog("GET: employee/" + id));
 
     EmployeeBody resBody = employeeService.getById(id);
     return ApiResponseBody.builder()
@@ -53,11 +56,26 @@ public class EmployeeController {
   @ResponseStatus(code = HttpStatus.CREATED)
   public ApiResponseBody create(
       @Valid @RequestBody EmployeeBody employeeBody) throws ItemAlreadyExistsException, InvalidDataException {
-    log.info("POST: employee/" + "  | RequestBody: " + employeeBody.toString());
+    log.info(ColorLog.getLog("POST: employee/" + "  | RequestBody: " + employeeBody.toString()));
     employeeService.create(employeeBody);
     return ApiResponseBody.builder()
         .status(HttpStatus.CREATED)
         .message("Create employee success!")
+        .data(employeeBody)
+        .build();
+  }
+
+  @PutMapping
+  @ResponseStatus(code = HttpStatus.ACCEPTED)
+  public ApiResponseBody update(
+      @Valid @RequestBody EmployeeBody employeeBody) throws ItemNotFoundException {
+    log.info(ColorLog.getLog("POST: employee/" + "  | RequestBody: " + employeeBody.toString()));
+
+    employeeService.update(employeeBody);
+
+    return ApiResponseBody.builder()
+        .status(HttpStatus.ACCEPTED)
+        .message("Employee updated")
         .data(employeeBody)
         .build();
   }

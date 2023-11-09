@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ServiceB.payload.response.ApiResponseBody;
+import com.example.ServiceB.util.ColorLog;
 
 @RestController
 public class HomeController {
@@ -24,8 +25,7 @@ public class HomeController {
         try {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception e) {
-            e.printStackTrace();
-            // TODO: handle exception
+            ColorLog.printStackTrace(e);
         }
 
         return ApiResponseBody.builder().build();

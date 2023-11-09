@@ -13,4 +13,10 @@ public interface EmployeeService {
   EmployeeBody getById(Integer id) throws ItemNotFoundException, InvalidDataException;
 
   void create(EmployeeBody body) throws ItemAlreadyExistsException, InvalidDataException;
+
+  void update(EmployeeBody body) throws ItemNotFoundException;
+
+  void delete(Integer id) throws ItemNotFoundException;
+
+  boolean existed(Integer id);
 }

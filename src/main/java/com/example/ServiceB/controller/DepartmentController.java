@@ -9,12 +9,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ServiceB.payload.response.ApiResponseBody;
 
+import io.opentelemetry.api.trace.Span;
+
 @RestController
 @RequestMapping("/departments")
 public class DepartmentController {
 
     @GetMapping
     public ApiResponseBody all() {
+        Span span = Span.current();
+        span.setAttribute("url.query", "?name=Huu Duc");
+
         return ApiResponseBody.builder().data(new ArrayList<>()).message("List of department")
                 .build();
     }

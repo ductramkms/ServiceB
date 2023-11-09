@@ -2,6 +2,8 @@ package com.example.ServiceB.payload.common;
 
 import com.example.ServiceB.constant.ExceptionMessage;
 import com.example.ServiceB.model.Employee;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -29,12 +31,16 @@ public class EmployeeBody {
   @Min(value = 0, message = ExceptionMessage.EMPLOYEE_SALARY_CANT_BE_NEGATIVE)
   private Double salary;
 
+  @JsonProperty(required = false)
+  private String note;
+
   public static EmployeeBody fromEntity(Employee employee) {
     return EmployeeBody.builder()
         .empId(employee.getEmpId())
         .name(employee.getName())
         .department(employee.getDepartment())
         .salary(employee.getSalary())
+        .note(employee.getNote())
         .build();
   }
 
@@ -44,6 +50,7 @@ public class EmployeeBody {
         .name(body.getName())
         .department(body.getDepartment())
         .salary(body.getSalary())
+        .note(body.getNote())
         .build();
   }
 
@@ -58,7 +65,7 @@ public class EmployeeBody {
     EmployeeBody body = (EmployeeBody) o;
     return Objects.equals(empId, body.empId) && Objects.equals(name, body.name)
         && Objects.equals(department, body.department) && Objects.equals(salary,
-        body.salary);
+            body.salary);
   }
 
   @Override

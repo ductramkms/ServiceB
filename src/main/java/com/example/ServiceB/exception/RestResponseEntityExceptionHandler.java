@@ -4,6 +4,8 @@ import com.example.ServiceB.exception.custom.InvalidDataException;
 import com.example.ServiceB.exception.custom.ItemAlreadyExistsException;
 import com.example.ServiceB.exception.custom.ItemNotFoundException;
 import com.example.ServiceB.payload.response.ApiResponseBody;
+import com.example.ServiceB.util.ColorLog;
+
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.ConversionNotSupportedException;
@@ -45,7 +47,8 @@ public class RestResponseEntityExceptionHandler {
   private ResponseEntity<ApiResponseBody> response(Exception exception,
       HttpStatus code) {
 
-    exception.printStackTrace();
+    ColorLog.printStackTrace(exception);
+
     ApiResponseBody body = ApiResponseBody.builder()
         .status(code)
         .message(exception.getMessage())
