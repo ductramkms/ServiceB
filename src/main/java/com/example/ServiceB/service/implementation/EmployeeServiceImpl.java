@@ -11,6 +11,8 @@ import com.example.ServiceB.repository.EmployeeRepository;
 import com.example.ServiceB.service.EmployeeService;
 import com.example.ServiceB.util.ColorLog;
 
+import io.micrometer.core.annotation.Timed;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,6 +27,7 @@ public class EmployeeServiceImpl implements EmployeeService {
   @Autowired
   private EmployeeRepository employeeRepository;
 
+  @Timed(value = "service.employee.get.all")
   @Override
   public ListEmployeeBody getAll() {
     List<Employee> employees = employeeRepository.findAll();
@@ -37,6 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         .build();
   }
 
+  @Timed(value = "service.employee.get.by.id")
   @Override
   public EmployeeBody getById(Integer id) throws ItemNotFoundException, InvalidDataException {
     if (id == null || id < 0) {
@@ -55,6 +59,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     return EmployeeBody.fromEntity(emOptional.get());
   }
 
+  @Timed(value = "service.employee.create")
   @Override
   public void create(EmployeeBody body) throws ItemAlreadyExistsException, InvalidDataException {
     // validateEmployee(body);
@@ -69,6 +74,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     employeeRepository.save(EmployeeBody.toEntity(body));
   }
 
+  @Timed(value = "service.employee.update")
   @Override
   public void update(EmployeeBody body) throws ItemNotFoundException {
     if (!employeeRepository.existsById(body.getEmpId())) {
@@ -81,11 +87,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     employeeRepository.save(EmployeeBody.toEntity(body));
   }
 
+  @Timed(value = "service.employee.delete")
   @Override
   public void delete(Integer id) throws ItemNotFoundException {
     employeeRepository.deleteById(id);
   }
 
+  @Timed(value = "service.employee.check.is.existed")
   @Override
   public boolean existed(Integer id) {
     if (id == null) {

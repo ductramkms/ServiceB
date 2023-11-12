@@ -8,6 +8,8 @@ import com.example.ServiceB.payload.response.ApiResponseBody;
 import com.example.ServiceB.service.EmployeeService;
 import com.example.ServiceB.util.ColorLog;
 
+import io.micrometer.core.annotation.Timed;
+
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,7 @@ public class EmployeeController {
   @Autowired
   private EmployeeService employeeService;
 
+  @Timed(value = "controller.employee.get.all")
   @GetMapping
   public ApiResponseBody all() {
     log.info(ColorLog.getLog("GET: employee/"));
@@ -39,6 +42,7 @@ public class EmployeeController {
         .build();
   }
 
+  @Timed(value = "controller.employee.get.by.id")
   @GetMapping(value = "/{id}")
   public ApiResponseBody getById(
       @PathVariable Integer id) throws ItemNotFoundException, InvalidDataException {
@@ -52,6 +56,7 @@ public class EmployeeController {
         .build();
   }
 
+  @Timed(value = "controller.employee.create")
   @PostMapping
   @ResponseStatus(code = HttpStatus.CREATED)
   public ApiResponseBody create(
@@ -65,6 +70,7 @@ public class EmployeeController {
         .build();
   }
 
+  @Timed(value = "controller.employee.update")
   @PutMapping
   @ResponseStatus(code = HttpStatus.ACCEPTED)
   public ApiResponseBody update(

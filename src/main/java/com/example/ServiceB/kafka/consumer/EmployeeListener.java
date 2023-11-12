@@ -16,6 +16,7 @@ import com.example.ServiceB.service.EmployeeService;
 import com.example.ServiceB.util.ColorLog;
 import com.example.ServiceB.util.Helper;
 
+import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -25,6 +26,7 @@ public class EmployeeListener {
     @Autowired
     private EmployeeService employeeService;
 
+    @Timed(value = "kafka.listener.topic1.partition1")
     // Partition 1
     @KafkaListener(topicPartitions = @TopicPartition(topic = Constant.TOPIC_1, partitions = {"0"}))
     public void listenGroupTopic_1_P1(
@@ -62,6 +64,7 @@ public class EmployeeListener {
     }
 
     // Partition 2
+    @Timed(value = "kafka.listener.topic1.partition2")
     @KafkaListener(topicPartitions = @TopicPartition(topic = Constant.TOPIC_1, partitions = {"1"}))
     public void listenGroupTopic_1_P2(@Payload String message) {
         KafkaRequestBody body = Helper.jsonDeserialize(message, KafkaRequestBody.class);
