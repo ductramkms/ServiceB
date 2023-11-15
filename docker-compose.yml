@@ -11,7 +11,7 @@ services:
       - "8080:8080"
     depends_on:
       - service_b_container
-      # kafka
+      - kafka
     networks:
       service_app_network:
         ipv4_address: 172.22.1.2
@@ -26,9 +26,11 @@ services:
       - SPRING_DATA_MONGODB_HOST=mongodb_service
       - SPRING_KAFKA_HOST=kafka
       - SPRING_KAFKA_PORT=9092
+      - SERVICE_A_HOST=172.22.1.2
+      - SERVICE_B_HOST=172.22.1.3
     depends_on:
       - mongodb_service
-      # kafka
+      - kafka
     networks:
       service_app_network:
         ipv4_address: 172.22.1.3

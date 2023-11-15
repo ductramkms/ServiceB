@@ -41,6 +41,12 @@ public class AuthorizationServerConfig {
     @Value("${spring.security.oauth2.authorizationserver.client.oidc-client.registration.redirect-uris[0]}")
     private String redirectUri;
 
+    @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
+    private String issuerUri;
+
+    @Value("${app.service_a_host}")
+    private String service_a_host;
+
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -58,7 +64,7 @@ public class AuthorizationServerConfig {
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .redirectUri(redirectUri)
-                .redirectUri("http://127.0.0.1:8080/authorized")
+                .redirectUri(service_a_host + ":8080/authorized")
                 .scope(OidcScopes.OPENID)
                 .scope(scope)
                 .build();
@@ -98,7 +104,7 @@ public class AuthorizationServerConfig {
     @Bean
     public ProviderSettings providerSettings() {
         return ProviderSettings.builder()
-                .issuer("http://localhost:8081")
+                .issuer(issuerUri)
                 .build();
     }
 
