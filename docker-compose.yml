@@ -6,7 +6,10 @@ services:
     #    restart: always
     environment:
       - SERVICE_B_HOST=172.22.1.3
+      - SERVICE_A_HOST=172.22.1.2
       - SERVICE_B_PORT=8081
+      - SPRING_KAFKA_HOST=kafka
+      - SPRING_KAFKA_PORT=9092
     ports:
       - "8080:8080"
     depends_on:
