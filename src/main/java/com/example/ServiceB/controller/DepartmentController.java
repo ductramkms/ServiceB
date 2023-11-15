@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.ServiceB.payload.response.ApiResponseBody;
 import com.example.ServiceB.service.DepartmentService;
 
+import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
@@ -38,14 +39,18 @@ public class DepartmentController {
         counter.increment();
         sample.stop(Timer.builder("request_time_get_all_departments").register(meterRegistry));
 
-        return ApiResponseBody.builder().data(departmentService.all(title)).message(
-                "List of department")
+        return ApiResponseBody.builder()
+                .data(departmentService.all(title))
+                .message("List of department")
                 .build();
     }
 
+    @Timed(value = "controller.department.get.by.id", description = "Get Department By ID")
     @GetMapping("/{id}")
     public ApiResponseBody getById(@PathVariable("id") Integer id) {
-        return ApiResponseBody.builder().data(id).message("Department ID: " + id)
+        return ApiResponseBody.builder()
+                .data(id)
+                .message("Department ID: " + id)
                 .build();
     }
 

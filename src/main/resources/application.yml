@@ -1,13 +1,13 @@
 server:
   port: 8081
 
-logging:
-  level:
-    org.springframework.security: trace
+# logging:
+#   level:
+#     org.springframework.security: trace
 
 spring:
   kafka:
-    bootstrap-servers: localhost:29092
+    bootstrap-servers: ${SPRING_KAFKA_HOST:localhost}:${SPRING_KAFKA_PORT:29092}
   data:
     mongodb:
       database: service_b

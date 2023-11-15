@@ -15,15 +15,11 @@ public class DefaultSecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        // http.authorizeRequests()
-        //         .antMatchers("/login/**").permitAll()
-        //         .anyRequest().authenticated()
-        //         .and()
-        //         .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-        //         .formLogin();
-
         http.authorizeRequests()
-                .antMatchers("/**").permitAll().and().csrf().disable();
+                .anyRequest().authenticated()
+                .and()
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .formLogin();
 
         return http.build();
     }
