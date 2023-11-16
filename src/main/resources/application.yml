@@ -41,7 +41,7 @@ spring:
 
       resourceserver:
         jwt:
-          issuer-uri: http://${SERVICE_B_HOST}:8081
+          issuer-uri: http://localhost:8081
 
 management:
   endpoints:
