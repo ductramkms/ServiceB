@@ -108,12 +108,12 @@ public class AuthorizationServerConfig {
                 .build();
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.debug(false)
-                .ignoring()
-                .antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico");
-    }
+    // @Bean
+    // public WebSecurityCustomizer webSecurityCustomizer() {
+    //     return (web) -> web.debug(false)
+    //             .ignoring()
+    //             .antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico");
+    // }
 
     // @Bean
     // public PasswordEncoder passwordEncoder() {
