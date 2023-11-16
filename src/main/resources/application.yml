@@ -6,8 +6,7 @@ server:
 #     org.springframework.security: trace
 
 app:
-  service_b_host: ${SERVICE_B_HOST:localhost}
-  service_a_host: ${SERVICE_A_HOST:http://localhost}
+  service_a_host: http://${SERVICE_A_HOST:localhost}
 
 spring:
   kafka:
