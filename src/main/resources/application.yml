@@ -31,9 +31,9 @@ spring:
                 - "authorization_code"
                 - "refresh_token"
               redirect-uris:
-                - "http://${SERVICE_A_HOST:127.0.0.1}:8080/login/oauth2/code/service-a-client-oidc"
+                - "http://127.0.0.1:8080/login/oauth2/code/service-a-client-oidc"
               post-logout-redirect-uris:
-                - "http://${SERVICE_A_HOST:127.0.0.1}:8080/"
+                - "http://:127.0.0.1:8080/"
               scopes:
                 - "openid"
                 - "employee.read"
@@ -41,7 +41,7 @@ spring:
 
       resourceserver:
         jwt:
-          issuer-uri: http://${SERVICE_B_HOST:localhost}:8081
+          issuer-uri: http://localhost:8081
 
 management:
   endpoints:
