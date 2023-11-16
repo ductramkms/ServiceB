@@ -6,7 +6,7 @@ server:
 #     org.springframework.security: trace
 
 app:
-  service_a_host: http://${SERVICE_A_HOST:127.0.0.1}
+  service_a_host: http://127.0.0.1
 
 spring:
   kafka:
