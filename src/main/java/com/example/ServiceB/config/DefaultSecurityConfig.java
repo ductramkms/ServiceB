@@ -15,7 +15,8 @@ public class DefaultSecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.cors().and().csrf().disable()
+                .authorizeRequests()
                 .mvcMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

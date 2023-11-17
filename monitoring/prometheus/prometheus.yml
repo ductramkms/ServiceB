@@ -11,16 +11,10 @@ scrape_configs:
     metrics_path: "/actuator/prometheus"
     scrape_interval: 15s
     static_configs:
-      - targets: ["service_a_container:8080"]
+      - targets: ["192.168.111.33:8080"]
 
   - job_name: "service-b"
     metrics_path: "/actuator/prometheus"
     scrape_interval: 15s
     static_configs:
-      - targets: ["service_b_container:8081"]
-
-  - job_name: "service-b-test-localhost"
-    metrics_path: "/actuator/prometheus"
-    scrape_interval: 15s
-    static_configs:
-      - targets: ["localhost:8081"]
+      - targets: ["192.168.111.33:8081"]
