@@ -12,6 +12,7 @@ public class ResourceServerConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .mvcMatchers("/actuator/**").permitAll()
                 .mvcMatchers("/employee/**").hasAnyAuthority("SCOPE_employee.read")
                 .mvcMatchers("/**").permitAll()
                 .anyRequest().authenticated()

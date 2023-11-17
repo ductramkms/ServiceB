@@ -4,8 +4,6 @@ services:
   service_a_container:
     container_name: service_a_container
     image: ductram/service_a
-    extra_hosts:
-      - "localhost:127.0.0.1"
     #    restart: always
     environment:
       - SERVICE_B_HOST=172.22.1.3
@@ -23,6 +21,7 @@ services:
     depends_on:
       - service_b_container
       - kafka
+      - jaeger_service
     networks:
       service_app_network:
         ipv4_address: 172.22.1.2
@@ -31,8 +30,6 @@ services:
   service_b_container:
     container_name: service_b_container
     image: ductram/service_b
-    extra_hosts:
-      - "localhost:127.0.0.1"
     #    restart: always
     ports:
       - "8081:8081"
@@ -50,6 +47,7 @@ services:
     depends_on:
       - mongodb_service
       - kafka
+      - jaeger_service
     networks:
       service_app_network:
         ipv4_address: 172.22.1.3
@@ -103,6 +101,25 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     networks:
       service_app_network:
+
+  # PROMETHEUS
+  prometheus:
+    image: prom/prometheus:v2.44.0
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  # GRAFANA
+  grafana:
+    image: grafana/grafana:9.5.2
+    container_name: grafana
+    ports:
+      - "4000:3000"
+    restart: unless-stopped
+    volumes:
+      - ./monitoring/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
 
 #NETWORK
 networks:
