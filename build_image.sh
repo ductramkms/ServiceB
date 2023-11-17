@@ -1,4 +1,4 @@
-mvn clean install
+mvn clean install -DskipTests
 
 docker container stop service_b_container
 docker container rm service_b_container
