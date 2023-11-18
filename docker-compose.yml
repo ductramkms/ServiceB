@@ -3,7 +3,7 @@ services:
   # SERVICE A
   service_a_container:
     container_name: service_a_container
-    image: service_a
+    image: ductram/service_a
     restart: on-failure:5
     environment:
       - SERVICE_B_HOST=172.22.1.3
@@ -29,7 +29,7 @@ services:
   # SERVICE B
   service_b_container:
     container_name: service_b_container
-    image: service_b
+    image: ductram/service_b
     #    restart: always
     ports:
       - "8081:8081"
