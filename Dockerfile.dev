@@ -1,0 +1,4 @@
+FROM openjdk:11
+ADD  target/service_b.jar service_b.jar
+EXPOSE 8081
+ENTRYPOINT ["java", "-jar", "service_b.jar"]
