@@ -11,10 +11,10 @@ scrape_configs:
     metrics_path: "/actuator/prometheus"
     scrape_interval: 15s
     static_configs:
-      - targets: ["192.168.111.33:8080"]
+      - targets: ["192.168.111.30:8080"]
 
   - job_name: "service-b"
     metrics_path: "/actuator/prometheus"
     scrape_interval: 15s
     static_configs:
-      - targets: ["192.168.111.33:8081"]
+      - targets: ["192.168.111.30:8081"]
