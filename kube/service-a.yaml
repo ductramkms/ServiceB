@@ -2,27 +2,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: service-b-deployment
+  name: service-a-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: service-b
+      app: service-a
   template:
     metadata:
       labels:
-        app: service-b
+        app: service-a
     spec:
       containers:
-        - name: service-b-app
-          image: ductram/service_b:latest
+        - name: service-a-app
+          image: ductram/service_a:latest
           ports:
-            - containerPort: 8081
+            - containerPort: 8080
           env:
-            - name: SPRING_DATA_MONGODB_HOST
-              value: mongodb-service
+            - name: SERVICE_B_HOST
+              value: service-bs
+            - name: SERVICE_B_PORT
+              value: "8081"
             - name: SPRING_KAFKA_HOST
-              value: kafka-service
+              value: "kafka"
             - name: SPRING_KAFKA_PORT
               value: "9092"
           imagePullPolicy: Always
@@ -38,11 +40,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-bs
+  name: service-as
 spec:
   selector:
-    app: service-b
+    app: service-a
   ports:
-    - port: 8081
-      targetPort: 8081
+    - port: 8080
+      targetPort: 8080
   type: LoadBalancer

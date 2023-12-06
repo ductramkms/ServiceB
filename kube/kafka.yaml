@@ -1,6 +1,5 @@
-# Deployment
-apiVersion: apps/v1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
   name: kafka-deployment
   labels:
@@ -17,7 +16,7 @@ spec:
     spec:
       containers:
         - name: broker
-          image: confluentinc/cp-kafka:7.0.1
+          image: confluentinc/cp-kafka:latest
           ports:
             - containerPort: 9092
           env:
@@ -26,23 +25,20 @@ spec:
             - name: KAFKA_ZOOKEEPER_CONNECT
               value: "zookeeper-service:2181"
             - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
-              value: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+              value: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
             - name: KAFKA_ADVERTISED_LISTENERS
-              value: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
-            - name: KAFKA_INTER_BROKER_LISTENER_NAME
-              value: PLAINTEXT
+              value: PLAINTEXT://:29092,PLAINTEXT_INTERNAL://kafka-service:9092
             - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
               value: "1"
             - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
               value: "1"
             - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
               value: "1"
-          resources:
-            limits:
-              memory: "256Mi"
-              cpu: "500m"
+          # resources:
+          #   limits:
+          #     memory: "256Mi"
+          #     cpu: "500m"
 ---
-# Service
 apiVersion: v1
 kind: Service
 metadata:

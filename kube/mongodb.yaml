@@ -12,7 +12,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb
+  name: mongodb-service
 spec:
   selector:
     app: mongodb
@@ -23,7 +23,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongodb
+  name: mongodb-deployment
 spec:
   selector:
     matchLabels:
@@ -38,18 +38,14 @@ spec:
           image: mongo
           resources:
             limits:
-              memory: "128Mi"
+              memory: "512Mi"
               cpu: "500m"
           ports:
             - containerPort: 27017
-          volumeMounts: 
+          volumeMounts:
             - name: storage
               mountPath: /data/db
       volumes:
         - name: storage
           persistentVolumeClaim:
             claimName: mongodb-pvc
-  
-        
-
-
