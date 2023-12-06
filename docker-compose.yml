@@ -21,6 +21,7 @@ services:
     depends_on:
       - service_b_container
       - kafka
+      - zookeeper
       - jaeger_service
     networks:
       service_app_network:
@@ -47,6 +48,7 @@ services:
     depends_on:
       - mongodb_service
       - kafka
+      - zookeeper
       - jaeger_service
     networks:
       service_app_network:

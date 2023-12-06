@@ -9,10 +9,15 @@ import com.example.service_b.service.EmployeeService;
 import com.example.service_b.util.Helper;
 import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Arrays;
+
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.TopicPartition;
+import org.springframework.kafka.core.KafkaProducerException;
+import org.springframework.kafka.core.KafkaSendCallback;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +28,8 @@ public class EmployeeListener {
   private final EmployeeService employeeService;
   private final KafkaTemplate<String, String> kafkaTemplate;
 
-  public EmployeeListener(EmployeeService employeeService, KafkaTemplate<String, String> kafkaTemplate) {
+  public EmployeeListener(EmployeeService employeeService,
+      KafkaTemplate<String, String> kafkaTemplate) {
     this.employeeService = employeeService;
     this.kafkaTemplate = kafkaTemplate;
   }
@@ -99,8 +105,6 @@ public class EmployeeListener {
     }
   }
 
-
-
   private void deleteEmployee(String value) {
     Integer id = Integer.valueOf(value);
     // Delete if existed
@@ -115,5 +119,4 @@ public class EmployeeListener {
     kafkaTemplate.send(Constant.TOPIC_2, "Can't delete employee " + value
         + ", because it is not existed");
   }
-
 }
