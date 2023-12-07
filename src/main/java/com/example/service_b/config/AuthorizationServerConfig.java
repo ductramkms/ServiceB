@@ -41,15 +41,14 @@ public class AuthorizationServerConfig {
   @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
   private String issuerUri;
 
-  @Value("${app.service_a_host}")
-  private String service_a_host;
+  @Value("${app.redirect_host}")
+  private String redirect_host;
 
   @Bean
   @Order(Ordered.HIGHEST_PRECEDENCE)
   public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
     OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
     return http.formLogin(Customizer.withDefaults()).build();
-
   }
 
   @Bean
@@ -61,7 +60,7 @@ public class AuthorizationServerConfig {
         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
         .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
         .redirectUri(redirectUri)
-        .redirectUri("http://127.0.0.1:8080/authorized")
+        .redirectUri("http://" + redirect_host + "/authorized")
         .scope(OidcScopes.OPENID)
         .scope(scope)
         .build();
