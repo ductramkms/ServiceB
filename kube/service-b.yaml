@@ -27,6 +27,8 @@ spec:
               value: "9092"
             - name: ISSUER_URI
               value: service_bs
+            - name: REDIRECT_HOST
+              value: service-as
           imagePullPolicy: Always
           resources:
             requests:
