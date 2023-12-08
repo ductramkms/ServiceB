@@ -1,5 +1,11 @@
 package com.example.service_b.service;
 
 public interface DepartmentService {
-  String all(String title);
+
+    /**
+     * Just for test
+     * 
+     * @return
+     */
+    String all(String title);
 }

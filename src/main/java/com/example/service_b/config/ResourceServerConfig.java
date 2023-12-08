@@ -9,14 +9,16 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class ResourceServerConfig {
 
-  @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
-        .mvcMatchers("/employee/**").hasAnyAuthority("SCOPE_employee.read")
-        .anyRequest().authenticated()
-        .and()
-        .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .mvcMatchers("/actuator/**").permitAll()
+                .mvcMatchers("/employee/**").hasAnyAuthority("SCOPE_employee.read")
+                .mvcMatchers("/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
 
-    return http.build();
-  }
+        return http.build();
+    }
 }

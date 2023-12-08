@@ -13,28 +13,27 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class DefaultSecurityConfig {
 
-  @Bean
-  SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-    http.cors().and().csrf().disable()
-        .authorizeRequests()
-        .mvcMatchers("/actuator/**").permitAll()
-        .mvcMatchers("/**").permitAll()
-        .anyRequest().authenticated()
-        .and()
-        .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-        .formLogin();
+    @Bean
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable()
+                .authorizeRequests()
+                .mvcMatchers("/actuator/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .formLogin();
 
-    return http.build();
-  }
+        return http.build();
+    }
 
-  @Bean
-  UserDetailsService userDetailsService() {
-    UserDetails user = User.withDefaultPasswordEncoder()
-        .username("admin")
-        .password("123")
-        .roles("USER")
-        .build();
+    @Bean
+    UserDetailsService userDetailsService() {
+        UserDetails user = User.withDefaultPasswordEncoder()
+                .username("admin")
+                .password("123")
+                .roles("USER")
+                .build();
 
-    return new InMemoryUserDetailsManager(user);
-  }
+        return new InMemoryUserDetailsManager(user);
+    }
 }

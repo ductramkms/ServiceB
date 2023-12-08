@@ -1,7 +1,9 @@
 package com.example.service_b.payload.response;
 
-import com.example.service_b.payload.common.EmployeeBody;
 import java.util.List;
+
+import com.example.service_b.payload.common.EmployeeBody;
+
 import lombok.Builder;
 import lombok.Data;
 

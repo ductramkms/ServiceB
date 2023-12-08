@@ -31,6 +31,12 @@ import org.springframework.web.context.request.async.AsyncRequestTimeoutExceptio
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import com.example.service_b.exception.custom.InvalidDataException;
+import com.example.service_b.exception.custom.ItemAlreadyExistsException;
+import com.example.service_b.exception.custom.ItemNotFoundException;
+import com.example.service_b.payload.response.ApiResponseBody;
+import com.example.service_b.util.ColorLog;
+
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler {
 

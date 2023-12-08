@@ -1,14 +1,5 @@
-package com.example.service_b.service.implementation;
+package com.example.ServiceB.service.implementation;
 
-import com.example.service_b.constant.ExceptionMessage;
-import com.example.service_b.exception.custom.InvalidDataException;
-import com.example.service_b.exception.custom.ItemAlreadyExistsException;
-import com.example.service_b.exception.custom.ItemNotFoundException;
-import com.example.service_b.model.Employee;
-import com.example.service_b.payload.common.EmployeeBody;
-import com.example.service_b.payload.response.ListEmployeeBody;
-import com.example.service_b.repository.EmployeeRepository;
-import com.example.service_b.service.EmployeeService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +13,17 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import com.example.service_b.constant.ExceptionMessage;
+import com.example.service_b.exception.custom.InvalidDataException;
+import com.example.service_b.exception.custom.ItemAlreadyExistsException;
+import com.example.service_b.exception.custom.ItemNotFoundException;
+import com.example.service_b.model.Employee;
+import com.example.service_b.payload.common.EmployeeBody;
+import com.example.service_b.payload.response.ListEmployeeBody;
+import com.example.service_b.repository.EmployeeRepository;
+import com.example.service_b.service.EmployeeService;
+import com.example.service_b.service.implementation.EmployeeServiceImpl;
 
 @ExtendWith(SpringExtension.class)
 public class EmployeeServiceImplTest {
@@ -88,7 +90,6 @@ public class EmployeeServiceImplTest {
   void getById_ExistedId_EmployeeData() throws InvalidDataException {
     Employee employee = Employee.builder().empId(1).name("Huu Duc").salary(1.0)
         .department("Software").build();
-
     Mockito.when(employeeRepository.findById(1)).thenReturn(Optional.of(employee));
 
     EmployeeBody body = employeeService.getById(1);
