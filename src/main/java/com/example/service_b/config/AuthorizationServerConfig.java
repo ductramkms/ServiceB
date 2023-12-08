@@ -60,7 +60,7 @@ public class AuthorizationServerConfig {
         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
         .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
         .redirectUri(redirectUri)
-        .redirectUri("http://" + redirect_host + "/authorized")
+        .redirectUri(redirect_host + ":8080/authorized")
         .scope(OidcScopes.OPENID)
         .scope(scope)
         .build();
