@@ -1,6 +1,5 @@
-package com.example.ServiceB.controller;
+package com.example.service_b.controller;
 
-import com.example.service_b.controller.EmployeeController;
 import com.example.service_b.exception.custom.InvalidDataException;
 import com.example.service_b.model.Employee;
 import com.example.service_b.payload.common.EmployeeBody;

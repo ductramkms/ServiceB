@@ -152,7 +152,7 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
-					<mainClass>com.example.ServiceB.ServiceBApplication</mainClass>
+					<mainClass>com.example.service_b.ServiceBApplication</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>

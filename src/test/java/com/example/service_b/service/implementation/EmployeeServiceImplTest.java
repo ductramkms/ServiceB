@@ -1,4 +1,4 @@
-package com.example.ServiceB.service.implementation;
+package com.example.service_b.service.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,6 @@ import com.example.service_b.payload.common.EmployeeBody;
 import com.example.service_b.payload.response.ListEmployeeBody;
 import com.example.service_b.repository.EmployeeRepository;
 import com.example.service_b.service.EmployeeService;
-import com.example.service_b.service.implementation.EmployeeServiceImpl;
 
 @ExtendWith(SpringExtension.class)
 public class EmployeeServiceImplTest {
