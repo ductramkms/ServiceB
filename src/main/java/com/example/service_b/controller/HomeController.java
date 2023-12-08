@@ -14,7 +14,7 @@ public class HomeController {
   public ApiResponseBody home() {
     return ApiResponseBody.builder()
         .message("Home controller")
-        .data("MESSAGE: this is home page")
+        .data("MESSAGE: this is home page of service B")
         .build();
   }
 }

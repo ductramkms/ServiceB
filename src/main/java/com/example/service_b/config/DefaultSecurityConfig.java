@@ -18,6 +18,7 @@ public class DefaultSecurityConfig {
     http.cors().and().csrf().disable()
         .authorizeRequests()
         .mvcMatchers("/actuator/**").permitAll()
+        .mvcMatchers("/**").permitAll()
         .anyRequest().authenticated()
         .and()
         .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
