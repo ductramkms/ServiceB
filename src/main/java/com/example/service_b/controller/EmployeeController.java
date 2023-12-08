@@ -68,10 +68,11 @@ public class EmployeeController {
             .data(employeeService.getById(id))
             .build();
       } catch (ItemNotFoundException e) {
-        throw new ItemNotFoundException("ItemNotFoundException");
+        ColorLog.printStackTrace(e);
       } catch (InvalidDataException e) {
-        throw new ItemNotFoundException("InvalidDataException");
+        ColorLog.printStackTrace(e);
       }
+      return null;
     });
 
     log.info("GET: employee/" + id + " & request time = " + timer.max(
