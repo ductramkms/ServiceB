@@ -84,8 +84,7 @@ public class EmployeeController {
   @PostMapping
   @ResponseStatus(code = HttpStatus.CREATED)
   public ApiResponseBody create(
-      @Valid @RequestBody EmployeeBody employeeBody)
-      throws ItemAlreadyExistsException, InvalidDataException {
+      @Valid @RequestBody EmployeeBody employeeBody) throws ItemAlreadyExistsException, InvalidDataException {
 
     Timer timer = Timer.builder("controller.employee.create").register(meterRegistry);
 
